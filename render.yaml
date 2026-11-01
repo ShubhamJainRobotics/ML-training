@@ -1,0 +1,31 @@
+# ==============================================================================
+# Render Blueprint Configuration for Jaanch ML Service
+# Enables one-click deployment on Render with Docker runtime
+# ==============================================================================
+
+services:
+  - type: web
+    name: jaanch-ml-service
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: API_KEY
+        generateValue: true
+      - key: MODEL_PATH
+        value: models/jaanch_scam_model_v2_calibrated.joblib
+      - key: MODEL_VERSION
+        value: tfidf-logreg-v2-calibrated
+      - key: LOW_THRESHOLD
+        value: "0.50"
+      - key: MEDIUM_THRESHOLD
+        value: "0.75"
+      - key: MAX_SEVERITY
+        value: medium
+      - key: CORS_ORIGINS
+        value: https://your-jaanch-app.vercel.app,http://localhost:3000

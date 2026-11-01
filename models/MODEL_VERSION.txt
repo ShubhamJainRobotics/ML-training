@@ -1,0 +1,6 @@
+model_filename: jaanch_scam_model_v2_calibrated.joblib
+model_version: tfidf-logreg-v2-calibrated
+training_dataset_version: EMSCAD-70-Train + synthetic_indian_v1 (190 approved rows)
+threshold_policy_version: jaanch_conservative_triage_v1
+date_created: 2026-11-01
+sha256_checksum: DE2A059BA108D71964F33A8F1EC6980C18BBDC3CD4A0783FFC6F74919DF70C97
