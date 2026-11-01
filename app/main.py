@@ -151,3 +151,4 @@ async def generate_ml_signal(
                 "message": "Unable to compute ML signal safely. Please rely on deterministic rule checks."
             }
         )
+

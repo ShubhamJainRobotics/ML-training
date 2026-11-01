@@ -61,3 +61,4 @@ def test_redaction_preserves_surrounding_context():
 def test_redaction_handles_empty_input():
     assert redact_text("") == ""
     assert redact_text(None) == ""
+

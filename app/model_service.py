@@ -130,3 +130,4 @@ class ModelService:
 
 # Global instance
 model_service = ModelService()
+

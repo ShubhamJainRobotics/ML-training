@@ -50,3 +50,4 @@ def test_policy_invariants_metadata():
     assert meta["can_trigger_high"] is False
     assert meta["can_mark_verified"] is False
     assert meta["can_override_rule"] is False
+

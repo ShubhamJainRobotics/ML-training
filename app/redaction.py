@@ -53,3 +53,4 @@ def redact_text(text: str) -> str:
     cleaned = RE_OTP.sub("[PERSONAL_IDENTIFIER]", cleaned)
 
     return cleaned
+

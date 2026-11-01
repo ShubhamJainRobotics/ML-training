@@ -72,3 +72,4 @@ class HealthResponse(BaseModel):
 class ErrorResponse(BaseModel):
     error: str = Field(..., description="Error category name.")
     message: str = Field(..., description="Safe, sanitized error description.")
+

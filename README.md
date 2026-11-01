@@ -205,3 +205,4 @@ To update to a new model version (e.g., `v3`):
 ## Integration Guide
 
 For full instructions and ready-to-use TypeScript code for connecting this service into the main Jaanch frontend and aggregator, see [docs/INTEGRATION.md](file:///c:/Users/Shubkacomputer/OneDrive/Desktop/JAANCH%20codemeet/jaanch-ml-service/docs/INTEGRATION.md).
+
