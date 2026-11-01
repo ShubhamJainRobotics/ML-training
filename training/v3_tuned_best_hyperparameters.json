@@ -1,0 +1,25 @@
+{
+  "best_cv_score": 0.7192422531620208,
+  "search_strategy": "RandomizedSearchCV(5-fold Stratified)",
+  "n_iter": 40,
+  "scoring_function": "JaanchCustomScorer(0.45*F1 + 0.45*Recall - 2.0*FPR)",
+  "best_params": {
+    "features__word__sublinear_tf": false,
+    "features__word__ngram_range": [
+      1,
+      2
+    ],
+    "features__word__min_df": 1,
+    "features__word__max_features": 80000,
+    "features__char__sublinear_tf": true,
+    "features__char__ngram_range": [
+      3,
+      5
+    ],
+    "features__char__min_df": 2,
+    "features__char__max_features": 60000,
+    "clf__C": 2.0
+  },
+  "tuning_duration_seconds": 1753.11,
+  "selected_at": "2026-11-01T18:44:50.679290"
+}

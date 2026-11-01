@@ -1,0 +1,14 @@
+{
+  "policy_name": "jaanch_conservative_triage_v3_tuned",
+  "created_at": "2026-11-01T18:48:36.558075",
+  "low_threshold": 0.5,
+  "medium_threshold": 0.75,
+  "max_allowed_severity": "medium",
+  "policy_invariants": {
+    "can_trigger_high": false,
+    "can_mark_verified": false,
+    "can_override_rule": false,
+    "severity_clamping": "Strictly medium maximum"
+  },
+  "rationale": "Threshold 0.50 ensures early triaging with near-zero false alarms; 0.75 provides high confidence medium-risk alerts on scam patterns."
+}
