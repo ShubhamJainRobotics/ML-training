@@ -42,7 +42,7 @@ class ModelService:
             return False
 
     def _extract_feature_components(self):
-        """Extracts vectorizer and base classifier coefficients for token explanations."""
+        """Extracts vectorizer/feature-union and base classifier coefficients for token explanations."""
         if self.model is None:
             return
 
@@ -56,7 +56,7 @@ class ModelService:
             base_pipeline = self.model
 
         if hasattr(base_pipeline, "named_steps"):
-            self.tfidf = base_pipeline.named_steps.get("tfidf")
+            self.tfidf = base_pipeline.named_steps.get("features") or base_pipeline.named_steps.get("tfidf")
             self.clf = base_pipeline.named_steps.get("clf")
 
     def explain_terms(self, redacted_text: str, top_k: int = 5) -> List[str]:
@@ -82,7 +82,22 @@ class ModelService:
                     contributions.append((str(feature_names[idx]), float(score)))
 
             contributions.sort(key=lambda x: x[1], reverse=True)
-            return [term for term, _ in contributions[:top_k]]
+
+            clean_terms: List[str] = []
+            seen = set()
+            for raw_term, _ in contributions:
+                cleaned = raw_term
+                for prefix in ("word_tfidf__", "char_tfidf__", "tfidf__"):
+                    if cleaned.startswith(prefix):
+                        cleaned = cleaned[len(prefix):]
+                cleaned = cleaned.strip()
+                if cleaned and cleaned not in seen:
+                    seen.add(cleaned)
+                    clean_terms.append(cleaned)
+                if len(clean_terms) >= top_k:
+                    break
+
+            return clean_terms
         except Exception as e:
             logger.warning(f"Could not extract feature explanations: {e}")
             return []

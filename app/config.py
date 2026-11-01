@@ -17,13 +17,13 @@ class Settings:
         self.DEBUG: bool = self.ENVIRONMENT == "development"
 
         # Model configuration
-        model_env = os.getenv("MODEL_PATH", "models/jaanch_scam_model_v2_calibrated.joblib")
+        model_env = os.getenv("MODEL_PATH", "models/jaanch_scam_model_v3_calibrated.joblib")
         candidate_path = Path(model_env)
         if not candidate_path.is_absolute():
             candidate_path = self.BASE_DIR / candidate_path
         self.MODEL_PATH: Path = candidate_path
 
-        self.MODEL_VERSION: str = os.getenv("MODEL_VERSION", "tfidf-logreg-v2-calibrated")
+        self.MODEL_VERSION: str = os.getenv("MODEL_VERSION", "tfidf-logreg-v3-calibrated")
 
         # Thresholds
         self.LOW_THRESHOLD: float = float(os.getenv("LOW_THRESHOLD", "0.50"))
