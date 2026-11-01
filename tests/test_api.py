@@ -65,7 +65,7 @@ def test_ml_signal_valid_request_contract(client):
     assert isinstance(data["confidence"], float)
     assert 0.0 <= data["confidence"] <= 1.0
     assert isinstance(data["top_contributing_terms"], list)
-    assert data["model_version"] == "tfidf-logreg-v2-calibrated"
+    assert data["model_version"] == get_settings().MODEL_VERSION
 
     # Policy invariants verification
     policy = data["policy"]
