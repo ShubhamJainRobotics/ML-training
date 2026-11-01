@@ -1,94 +1,81 @@
 # Jaanch ML Service - Git Release & Deployment Report
 
 **Date:** November 1, 2026  
-**Target Repository:** `Repo B` (`jaanch-ml-service`)  
+**Target Repository:** `ML-training` (`jaanch-ml-service`)  
 **Remote URL:** `https://github.com/ShubhamJainRobotics/ML-training.git`  
 **Branch:** `main`  
-**Status:** Successfully Pushed  
+**Latest Remote Commit:** `4ce482a`  
+**Status:** Successfully Pushed & Fully Up-to-Date  
 
 ---
 
 ## 1. Summary of Changes
 
-This release promotes the **Jaanch Scam Detection Model v3 (Calibrated)** to production within the standalone ML inference microservice (`jaanch-ml-service`). It updates feature extraction to support `FeatureUnion` (word + char n-grams) with backward compatibility for legacy single-vectorizer models, adapts test suites, and preserves zero-downtime rollback capability.
+This repository now contains the production **Jaanch Scam Detection Model v3-Tuned (Calibrated)**, complete model card and evaluation benchmarks, inference microservice logic with automatic `.env` loading, and all reproducible training scripts, notebooks, and live monitors.
 
 ---
 
-## 2. Commits Pushed to Remote
+## 2. Complete Commit History Pushed to Remote
 
-| Commit Hash | Author | Message |
-|-------------|--------|---------|
-| `dce743c` | ML Engineering Agent | `feat(ml): promote calibrated scam detection model v3 and update feature extractor` |
-| `9a7110b` | ML Engineering Agent | `test(ml): update test suite assertions for model v3 compatibility` |
-
-**Git Push Output:**
-```text
-To https://github.com/ShubhamJainRobotics/ML-training.git
-   86207c7..9a7110b  main -> main
-```
-
----
-
-## 3. Files Committed
-
-| File | Status | Description |
-|------|--------|-------------|
-| `models/jaanch_scam_model_v3_calibrated.joblib` | Added (25.69 MB) | Production calibrated LogisticRegression + FeatureUnion model artifact |
-| `models/MODEL_VERSION.txt` | Modified | Updated model metadata, version string, training set version, and SHA-256 |
-| `app/config.py` | Modified | Updated default `MODEL_PATH` and `MODEL_VERSION` to v3 |
-| `app/model_service.py` | Modified | Enhanced feature extraction to support both `features` (`FeatureUnion`) and `tfidf` steps; cleans prefix names for token explanations |
-| `.env.example` | Modified | Updated environment configuration defaults for v3 |
-| `tests/test_api.py` | Modified | Updated test assertions to dynamically match active `MODEL_VERSION` |
+| Commit Hash | Scope | Message |
+|-------------|-------|---------|
+| `4ce482a` | `feat(training)` | `add model v3 tuning notebook, training scripts, and live monitor` |
+| `263d057` | `docs(ml)` | `add v3-tuned model evaluation report and tuning workflow` |
+| `914b202` | `feat(ml)` | `promote calibrated scam detection model v3-tuned and update service configuration` |
+| `34443a1` | `docs` | `add release and git push report for model v3 deployment` |
+| `9a7110b` | `test(ml)` | `update test suite assertions for model v3 compatibility` |
+| `dce743c` | `feat(ml)` | `promote calibrated scam detection model v3 and update feature extractor` |
+| `86207c7` | `chore` | `Normalize line endings` |
+| `aa86744` | `feat(ml)` | `Add reusable Jaanch ML inference service` |
 
 ---
 
-## 4. Excluded Files & Safety Verification
+## 3. Pushed Files Breakdown
 
-- **Root Repository Untouched:** All changes were isolated strictly to `Repo B` (`jaanch-ml-service`). The root workspace (`JaanchAI.git`) remains uncommitted and unaffected.
-- **Secrets & Credentials:** No `.env` or production secrets were committed (`.env.example` verified clean).
-- **Large Files & LFS:** The model artifact size is **25.69 MB**, well below GitHub's 50 MB warning threshold and 100 MB hard limit. Git LFS was not required.
-- **Data Privacy:** No raw training datasets, customer data, or PII were staged.
+### A. Production Model Artifacts & Metadata
+- `models/jaanch_scam_model_v3_tuned_calibrated.joblib` (40.33 MB)  
+  *SHA-256:* `9D244527840F65F35E96D606FFCEA5508C151EC57E1135385AAD925D93DC470E`
+- `models/MODEL_VERSION.txt` (Version: `tfidf-logreg-v3-tuned-calibrated`, Policy: `jaanch_conservative_triage_v3_tuned`)
+- `models/jaanch_scam_model_v3_calibrated.joblib` (25.69 MB, Retained for immediate zero-downtime rollback)
+- `models/jaanch_scam_model_v2_calibrated.joblib` (18.74 MB, Retained for backward compatibility)
 
----
+### B. Inference Microservice & Configuration
+- `app/config.py`: Integrated `python-dotenv` for automatic environment loading; defaulted to v3-tuned.
+- `app/model_service.py`: Strips `word__` and `char__` prefixes from token explanations; extracts FeatureUnion coefficients cleanly.
+- `render.yaml`: Updated deployment blueprint for v3-tuned.
+- `.env.example`: Updated environment template with v3-tuned defaults.
+- `.gitignore`: Configured to preserve `training/` scripts and notebooks while strictly ignoring raw data files and secrets.
+- `README.md`: Documented updated repository structure including `training/` and `docs/`.
 
-## 5. Model v3 Specifications & Verification
+### C. Documentation & Benchmarks
+- `docs/MODEL_V3_TUNED_EVALUATION.md`: Full 120-sample untouched test set benchmark report (99.17% accuracy, 100% recall, 1.67% FPR).
+- `docs/TUNING_WORKFLOW.md`: Step-by-step documentation of hyperparameter optimization, custom scorer, and calibration.
 
-- **Artifact Name:** `jaanch_scam_model_v3_calibrated.joblib`
-- **File Size:** 25,690,443 bytes (~25.69 MB)
-- **SHA-256 Checksum:** `30D71C425703E4A4089C59A6FBBD200B20C83ABE027F3E365E2F556C6CCD0FD8`
-- **Architecture:** Word TF-IDF (1-2 n-grams) + Char_wb TF-IDF (3-5 n-grams) $\to$ `LogisticRegression(C=0.8, class_weight='balanced')` $\to$ `CalibratedClassifierCV(method='sigmoid', cv=5)`
-- **Policy Compliance:** ML risk score remains capped at **Medium** severity. High Risk is strictly reserved for deterministic rule engines.
-
----
-
-## 6. Pre-Commit Test Suite Results
-
-All tests executed via `pytest tests` and passed cleanly:
-
-```text
-============================= test session starts =============================
-platform win32 -- Python 3.14.7, pytest-9.2.0, pluggy-1.7.0
-rootdir: C:\Users\Shubkacomputer\OneDrive\Desktop\JAANCH codemeet\jaanch-ml-service
-plugins: anyio-4.15.1, platformdirs-4.14.2
-collected 22 items
-
-tests\test_api.py ........                                               [ 36%]
-tests\test_policy.py ......                                              [ 63%]
-tests\test_redaction.py ........                                         [100%]
-
-============================= 22 passed in 14.62s =============================
-```
+### D. Training Scripts & Tooling (`training/`)
+- `training/16_train_model_v3_tuned.ipynb`: Kaggle-ready tuning notebook.
+- `training/run_v3_tuning.py`: Local hyperparameter optimization script.
+- `training/training_monitor.py`: Real-time training progress callback and metrics logger.
+- `training/training_dashboard.py`: Streamlit live monitoring dashboard.
+- `training/v3_tuned_best_hyperparameters.json`: Optimal hyperparameter parameters.
+- `training/v3_tuned_threshold_policy.json`: Conservative triage threshold policy.
 
 ---
 
-## 7. Zero-Downtime Rollback Instructions
+## 4. Safety, Test & Quality Verifications
 
-The previous production model `models/jaanch_scam_model_v2_calibrated.joblib` is retained in the repository. If any regression occurs in production, rollback can be performed immediately without code changes via environment variables:
+- **Pre-Commit Tests:** All 22 test cases passed (`tests/test_api.py`, `tests/test_policy.py`, `tests/test_redaction.py`).
+- **Secrets Check:** `.env` remains ignored and excluded.
+- **Root Repository Safety:** Workspace root (`JaanchAI.git`) remains uncommitted and unaffected.
+- **GitHub File Size Limit:** The largest file is `40.33 MB`, safely under the 50 MB GitHub warning and 100 MB hard limit.
 
+---
+
+## 5. Rollback Procedures
+
+If rolling back to Model v3 or Model v2 is ever required:
 ```bash
-# In your Render or production deployment environment variables:
-MODEL_PATH=models/jaanch_scam_model_v2_calibrated.joblib
-MODEL_VERSION=tfidf-logreg-v2-calibrated
+# In production environment variables:
+MODEL_PATH=models/jaanch_scam_model_v3_calibrated.joblib
+MODEL_VERSION=tfidf-logreg-v3-calibrated
 ```
-
-Restart the FastAPI service, and it will immediately serve using Model v2.
+Restart the service to switch models without downtime or code rebuilds.
