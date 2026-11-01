@@ -71,3 +71,7 @@ reports/
 !models/MODEL_VERSION.txt
 !models/*.joblib
 
+# Keep training scripts and tuning notebooks
+!training/
+!training/**
+

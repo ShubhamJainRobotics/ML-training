@@ -35,14 +35,25 @@ jaanch-ml-service/
 ├── models/
 │   ├── .gitkeep              # Git tracking
 │   ├── MODEL_VERSION.txt     # Model checksum (SHA256), version, and metadata
-│   └── jaanch_scam_model_v2_calibrated.joblib  # Calibrated model artifact (~18 MB)
+│   ├── jaanch_scam_model_v2_calibrated.joblib        # Baseline calibrated model (~18 MB)
+│   ├── jaanch_scam_model_v3_calibrated.joblib        # v3 calibrated model (~25 MB)
+│   └── jaanch_scam_model_v3_tuned_calibrated.joblib  # Production v3-Tuned calibrated model (~40 MB)
+├── training/
+│   ├── 16_train_model_v3_tuned.ipynb                 # Kaggle-ready tuning notebook
+│   ├── run_v3_tuning.py                              # Local hyperparameter search & calibration script
+│   ├── training_monitor.py                           # Real-time training metrics & logging callback
+│   ├── training_dashboard.py                         # Streamlit live monitoring dashboard
+│   ├── v3_tuned_best_hyperparameters.json            # Optimal hyperparameter search result
+│   └── v3_tuned_threshold_policy.json                # Conservative triage threshold policy
 ├── tests/
 │   ├── __init__.py           # Test package
 │   ├── test_redaction.py     # PII redaction unit tests
 │   ├── test_policy.py        # Severity threshold & clamping tests
 │   └── test_api.py           # FastAPI endpoint and auth integration tests
 ├── docs/
-│   └── INTEGRATION.md        # Full integration guide with Next.js / TypeScript code
+│   ├── INTEGRATION.md                 # Full integration guide with Next.js / TypeScript code
+│   ├── MODEL_V3_TUNED_EVALUATION.md   # Untouched test set benchmark & comparison report
+│   └── TUNING_WORKFLOW.md             # End-to-end tuning pipeline documentation
 ├── .env.example              # Environment variable template
 ├── .gitignore                # Clean exclusions (no raw datasets or notebooks)
 ├── Dockerfile                # Production Dockerfile (non-root user, healthcheck)

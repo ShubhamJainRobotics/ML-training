@@ -18,9 +18,9 @@ services:
       - key: API_KEY
         generateValue: true
       - key: MODEL_PATH
-        value: models/jaanch_scam_model_v2_calibrated.joblib
+        value: models/jaanch_scam_model_v3_tuned_calibrated.joblib
       - key: MODEL_VERSION
-        value: tfidf-logreg-v2-calibrated
+        value: tfidf-logreg-v3-tuned-calibrated
       - key: LOW_THRESHOLD
         value: "0.50"
       - key: MEDIUM_THRESHOLD

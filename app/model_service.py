@@ -87,7 +87,7 @@ class ModelService:
             seen = set()
             for raw_term, _ in contributions:
                 cleaned = raw_term
-                for prefix in ("word_tfidf__", "char_tfidf__", "tfidf__"):
+                for prefix in ("word_tfidf__", "char_tfidf__", "tfidf__", "word__", "char__"):
                     if cleaned.startswith(prefix):
                         cleaned = cleaned[len(prefix):]
                 cleaned = cleaned.strip()
